@@ -1,46 +1,30 @@
+
 var React = require('react')
 var ReactDOM = require('react-dom')
 
-var Hello = React.createClass ({
-    render() {
-        return (
-            <h1>
-            Hello, React!
-            </h1>
-        )
-    }
-})
+var new_tasks = [];
 
-var ListItem = React.createClass ({
-  render(){
-    return (
-      <p>
-        {this.props.value}
-      </p>
-    )
-  }
-});
+function add_item(){
+  if(document.getElementById('new_task_title').value != ''){
 
-var MyList = React.createClass ({
-  renderList(i) {
-    return <ListItem value={i} />;
-  },
-
-  render() {
-    var data= ["A", "B", "C", "D"];
-    var allInfo = data.map(item =>
-      <li>
-      {item}
-      </li>
+    new_tasks.push(document.getElementById('new_task_title').value)
+    document.getElementById('new_task_title').value = ''
+    var task_list_components = new_tasks.map(
+      (new_task) => <li className="collection-item dismissable">{new_task}</li>
     );
-    return(
-      <ul>
-        {this.renderList(allInfo)}
-      </ul>
+    var task_list = (
+      <ul className="collection col s12">{task_list_components}</ul>
+    )
+    console.log(document.getElementById('new_task_title').value)
+    ReactDOM.render(task_list, document.getElementById('main_list'))
+}
+}
 
-    )}
-  });
+var top_element = (
+  <div className="input-field">
+    <input type="text" className="col s10 offset s1" id="new_task_title" placeholder="Your Task Here"></input>
+    <a href="#" className="btn-floating btn-large  red" id="submit_new_task" onClick={add_item}><i className="material-icons">add</i></a>
+  </div>
+);
 
-ReactDOM.render(<Hello />, document.getElementById('container'));
-
-ReactDOM.render(<MyList />, document.getElementById('thislist'));
+ReactDOM.render(top_element, document.getElementById('top_input'));
